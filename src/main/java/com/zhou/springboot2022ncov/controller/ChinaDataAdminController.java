@@ -45,4 +45,41 @@ public class ChinaDataAdminController {
         DataView dataView = new DataView(page.getTotal(),page.getRecords());
         return dataView;
     }
+
+    //删除数据 根据id
+    @RequestMapping("/china/deleteById")
+    @ResponseBody
+    public DataView deleteById(Integer id){
+        indexService.removeById(id);
+        DataView dataView = new DataView();
+        dataView.setCode(200);
+        dataView.setMsg("删除中国地图数据成功!");
+
+        return dataView;
+    }
+
+    /**
+     * 新增或者修改 id
+     * id: ncovData 有值修改,没有值就是新增
+     * update ncov data set name = "" where id = ?
+     * insert into
+     *
+     * @param ncovData
+     * @return
+     */
+    @RequestMapping("/china/addOrUpdateChina")
+    @ResponseBody
+    public DataView addOrUpdateChina(NcovData ncovData){
+        boolean save = indexService.saveOrUpdate(ncovData);
+        DataView dataView = new DataView();
+        if (save){
+            dataView.setCode(200);
+            dataView.setMsg("新增中国地图数据成功!");
+            return dataView;
+        }
+        dataView.setCode(100);
+        dataView.setMsg("新增中国地图数据失败!");
+        return dataView;
+    }
+
 }
