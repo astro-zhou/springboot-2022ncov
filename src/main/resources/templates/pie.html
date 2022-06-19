@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--饼状图-->
+<html>
+<head>
+    <meta charset="utf-8"/>
+
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script th:src="@{echarts/echarts.min.js}"></script>
+    <script th:src="@{echarts/china.js}"></script>
+    <script th:src="@{echarts/jquery-1.11.1.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all">
+    <script th:src="@{/layui/layui.js}" charset="UTF-8"></script>
+
+</head>
+<body>
+
+<!--layui 公共模块-->
+<div th:include="commonmenu :: menu"></div>
+
+<div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+        <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+        <div id="main" style="width: 900px;height:700px;"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    var dataList = [];
+
+    option = {
+        title: {
+            text: 'Referer of a Website',
+            subtext: 'Fake Data',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left'
+        }
+    };
+
+    //编写前台请求数据的 ajax 请求域数据渲染
+    $.ajax({
+        url: "/queryPie",
+        dataType: "json",
+        success: function (data){
+            for (let i in data){
+                dataList[i] = data[i];
+            }
+            myChart.setOption({
+                series: [
+                {
+                    name: '中国疫情数据',
+                    type: 'pie',
+                    radius: '50%',
+                    data: dataList,
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+            })
+        }
+    });
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+
+</script>
+</body>
+</html>
