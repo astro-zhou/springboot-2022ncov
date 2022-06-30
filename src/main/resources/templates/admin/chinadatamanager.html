@@ -80,6 +80,18 @@
             </div>
         </div>
     </form>
+
+    <!-- 文件上传的 div -->
+    <div class="layui-upload-drag" id="test10">
+        <i class="layui-icon"></i>
+        <p>点击上传，或将文件拖拽到此处</p>
+        <div class="layui-hide" id="uploadDemoView">
+            <hr>
+            <img src="" alt="上传成功后渲染" style="max-width: 196px">
+        </div>
+    </div>
+
+
     <!--table-->
     <div style="padding: 15px;">
         <table class="layui-hide" id="demo" lay-filter="test"></table>
@@ -102,7 +114,7 @@
     var mainIndex;
 
     //加载模块
-    layui.use(['jquery'], function () {
+    layui.use(['upload','jquery'], function () {
         var layer = layui.layer //弹层
             , $ = layui.jquery
             , laypage = layui.laypage //分页
@@ -115,8 +127,17 @@
             , dropdown = layui.dropdown //下拉菜单
             , form = layui.form
 
+        //拖拽上传
+        upload.render({
+            elem: '#test10'
+            , url: '/excelImportChina'
+            , accept: 'file' //普通文件
+            , done: function(res){
+                layer.msg(res.msg);
+            }
+        });
 
-        //Tab 切换
+        // //Tab 切换
         element.on('tab(demo)', function (data) {
             layer.tips('切换了 ' + data.index + '：' + this.innerHTML, this, {
                 tips: 1
