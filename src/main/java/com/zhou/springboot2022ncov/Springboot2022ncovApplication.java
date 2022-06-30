@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan("com.zhou.springboot2022ncov.dao")
+
 public class Springboot2022ncovApplication {
 
     public static void main(String[] args) {

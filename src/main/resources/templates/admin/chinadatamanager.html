@@ -70,13 +70,17 @@
                 </div>
             </div>
             <div class="layui-inline" style="margin-top: 30px;">
-                <button type="button" class="layui-btn layui-btn-sm layui-btn-radius" lay-submit=""
-                        lay-filter="doSearch"><i
-                        class="layui-icon layui-icon-search layui-btn-normal"></i>查询
+                <button type="button" class="layui-btn layui-btn-sm layui-btn-radius" lay-submit="" lay-filter="doSearch"><i
+                        class="layui-icon layui-icon-search layui-icon-normal"></i>查询
                 </button>
                 <button type="reset" class="layui-btn layui-btn-sm layui-btn-radius layui-btn-warm"><i
                         class="layui-icon layui-icon-refresh"></i><span>重置</span>
                 </button>
+
+                <button type="button" class="layui-btn layui-btn-sm layui-btn-radius" lay-submit="" lay-filter="doExport"><i
+                        class="layui-icon layui-icon-normal">&#xe654;</i>导出中国疫情数据Excel
+                </button>
+
             </div>
         </div>
     </form>
@@ -244,9 +248,13 @@
                     $("#searchFrm2")[0].reset();
                     form.val("searchFrm2",data);
                 }
-            })
+            });
         }
 
+        // 导出Excel数据
+        form.on("submit(doExport)",function () {
+            window.location.href = "/excelOutPortChina";
+        })
 
         //分页
         laypage.render({
