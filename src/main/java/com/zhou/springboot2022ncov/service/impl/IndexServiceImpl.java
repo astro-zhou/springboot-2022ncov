@@ -25,4 +25,9 @@ public class IndexServiceImpl extends ServiceImpl<IndexMapper, NcovData> impleme
         List<LineTrend> list = indexMapper.findSevenData();
         return list;
     }
+
+    @Override
+    public List<NcovData> listOrderByIdLimit34() {
+        return indexMapper.listOrderByIdLimit34();
+    }
 }

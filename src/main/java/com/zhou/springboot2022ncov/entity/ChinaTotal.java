@@ -9,15 +9,18 @@ import java.util.Date;
 
 /**
  * @author zyh
- * @create 2022-06-16 20:47
+ * @create 2022-07-02 15:48
  */
+@TableName("china_total")
 @Data
-@TableName("ncov_data")
-public class NcovData {
+public class ChinaTotal {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-    private String name;
-    private Integer value;
-
+    private Integer confirm;
+    private Integer input;
+    private Integer severe;
+    private Integer heal;
+    private Integer dead;
+    private Integer suspect;
     private Date updateTime;
 }

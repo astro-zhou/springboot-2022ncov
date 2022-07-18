@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface IndexService extends IService<NcovData> {
     List<LineTrend> findSevenData();
+
+    List<NcovData> listOrderByIdLimit34();
 }

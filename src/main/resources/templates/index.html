@@ -18,6 +18,22 @@
 <div th:include="commonmenu :: menu"></div>
 
 <div class="layui-body">
+
+    <div style="padding-top: 50px">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+            <legend>新冠肺炎实时疫情数据展示---统计截止时间:<span th:text="${#dates.format(chinaTotal.updateTime, 'yyyy-MM-dd HH:ss')}"></span> </legend>
+        </fieldset>
+
+        <div class="layui-btn-container">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-lg">全国疫情数据</button>
+            <button type="button" class="layui-btn layui-btn-danger layui-btn-lg" th:text="'确诊人数:' + ${chinaTotal.confirm}">默认按钮</button>
+            <button type="button" class="layui-btn layui-btn-warm layui-btn-lg" th:text="'输入病例:' + ${chinaTotal.input}">百搭按钮</button>
+            <button type="button" class="layui-btn layui-btn-lg" th:text="'治愈病例:' + ${chinaTotal.heal}">暖色按钮</button>
+            <button type="button" class="layui-btn layui-bg-black layui-btn-black layui-btn-lg" th:text="'死亡人数:' + ${chinaTotal.dead}">警告按钮</button>
+        </div>
+    </div>
+
+
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">
         <!-- 为 ECharts 准备一个定义了宽高的 DOM -->

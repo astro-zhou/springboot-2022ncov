@@ -1,17 +1,20 @@
 package com.zhou.springboot2022ncov.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zhou.springboot2022ncov.entity.ChinaTotal;
 import com.zhou.springboot2022ncov.entity.LineTrend;
 import com.zhou.springboot2022ncov.entity.NcovData;
+import com.zhou.springboot2022ncov.service.ChinaTotalService;
 import com.zhou.springboot2022ncov.service.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author zyh
@@ -22,11 +25,34 @@ public class IndexController {
 
     @Autowired
     private IndexService indexService;
+    @Autowired
+    private ChinaTotalService chinaTotalService;
+
+    /**
+     * 查询 chinatotal 数据 一条最新的
+     * @param model
+     * @return
+     */
+    @RequestMapping("/")
+    public String index(Model model){
+
+        //1. 找到 ID 最大的那条数据
+        Integer id = chinaTotalService.maxID();
+        //2. 根据 ID 查找数据
+        ChinaTotal chinaTotal = chinaTotalService.getById(id);
+        model.addAttribute("chinaTotal",chinaTotal);
+        return "index";
+    }
 
     @RequestMapping("/query")
     @ResponseBody
-    public List<NcovData> queryData(){
-        List<NcovData> list = indexService.list();
+    public List<NcovData> queryData() throws ParseException {
+        //每天更新一次的数据使用场景
+//        QueryWrapper<NcovData> queryWrapper = new QueryWrapper<>();
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//        String format1 = format.format(new Date());
+//        queryWrapper.ge("update_time", format.parse(format1));
+        List<NcovData> list = indexService.listOrderByIdLimit34();
         return list;
     }
 
@@ -37,7 +63,7 @@ public class IndexController {
     @RequestMapping("/queryPie")
     @ResponseBody
     public List<NcovData> queryPieData(){
-        List<NcovData> list = indexService.list();
+        List<NcovData> list = indexService.listOrderByIdLimit34();
         return list;
     }
 
@@ -51,7 +77,7 @@ public class IndexController {
     @ResponseBody
     public Map<String,List<Object>> queryBarData(){
         //1. 所有城市数据:数值
-        List<NcovData> list = indexService.list();
+        List<NcovData> list = indexService.listOrderByIdLimit34();
         //2. 所有的城市数据
         List<String> cityList = new ArrayList<>();
         for (NcovData data : list){
